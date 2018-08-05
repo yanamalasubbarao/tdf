@@ -1,20 +1,177 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+
+<div class="container">
+  <h1>Employee Form</h1>
+ 
+  <form #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
+    {{ userForm.form.valid }}
+
+    <div class="form-row">
+      <label>First Name</label>
+      <div class="col">
+      <input type="text" required #name="ngModel"
+       [class.is-invalid]="name.invalid && name.touched" class="form-control"
+       name="userName" [(ngModel)]="userModel.name">
+       <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required</small>
+      </div>
+       
+       <label>Last Name</label>
+       <div class="col">
+       <input type="text" class="form-control">
+    </div>
+  </div>
+ 
+     <br>
+
+  <div class="form-group">
+      <label>DateOfBirth</label>
+      <input type="text" required #dateofbirth="ngModel" [class.is-invalid]="dateofbirth.invalid && dateofbirth.touched" class="form-control"
+      name="dateofbirth" [(ngModel)]="userModel.dateofbirth">
+    </div>
+
+
+    <div class="form-group">
+      <label>Salary</label>
+       <input type="decimal" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Designation</label>
+      <select required #designation="ngModel" [class.is-invalid]="designation.invalid && designation.touched"
+       class="custom-select" name="designation" [(ngModel)]="userModel.designation">
+          <option value=""></option>
+          <option *ngFor="let designation of designations">{{ designation }}</option>
+      </select>          
+          <small class="text-danger" [class.d-none]="designation.valid || designation.untouched">Designation is required</small>
+    </div>
+
+
+    <div class="form-group">
+      <label>Department</label>
+      <select required #department="ngModel" [class.is-invalid]="department.invalid && department.touched" 
+      class="custom-select" name="department" [(ngModel)]="userModel.department">
+        <option value=""></option>
+        <option *ngFor="let department of departments">{{ department }}</option>
+    </select>          
+        <small class="text-danger" [class.d-none]="department.valid || department.untouched">Department is required</small>
+  </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" required #email="ngModel" [class.is-invalid]="email.invalid && email.touched" class="form-control"
+      name="email" [(ngModel)]="userModel.email">
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="tel" required #phone="ngModel" pattern="^\d{10}$" required
+      [class.is-invalid]="phone.invalid && phone.touched" class="form-control"
+      name="phone" [(ngModel)]="userModel.phone">
+       <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+          <small class="text-danger" *ngIf="phone.errors.required">phone number is required</small>
+          <small class="text-danger" *ngIf="phone.errors.pattern">phone number must be 10 digits</small>         
+       </div>
+    </div>
+
+
+    <form>
+      <div class="form-row">
+          <label>Address1:</label>
+        <div class="col">
+         
+
+          <select required #city="ngModel" [class.is-invalid]="city.invalid && city.touched"
+           name="city" [(ngModel)]="userModel.city">
+          <input type="text" class="form-control" placeholder="City">
+          <option value=""></option>
+          <option *ngFor="let city of citys">{{ city }}</option>
+          </select>          
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="State">
+          <option value=""></option>
+          <option *ngFor="let state of states">{{ state }}</option>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Country">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Postalcode">
+          </div>
+      </div>
+    </form>
+        <br>
+    <form>
+        <div class="form-row">
+            <label>Address2:</label>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="City">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="State">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Country">
+          </div>
+          <div class="col">
+              <input type="text" class="form-control" placeholder="Postalcode">
+            </div>
+        </div>
+      </form>
+
+
+
+    <!-- <div ngModelGroup="address">
+        <div class="form-group">
+         <label>State</label>
+         <input type="text" class="form-control" name="state" [(ngModel)]="userModel.state">
+        </div>
+      <div class="form-group">
+        <label>Street</label>
+        <input type="text" class="form-control" name="street" [(ngModel)]="userModel.street">
+      </div>
+      <div class="form-group">
+          <label>City</label>
+          <input type="text" class="form-control" name="city" [(ngModel)]="userModel.city">
+        </div>
+        
+          <div class="form-group">
+              <label>Postal Code</label>
+              <input type="text" class="form-control" name="postalcode" [(ngModel)]="userModel.postalcode">
+            </div>
+          </div> -->
+
+    <div class="form-group">
+      <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" #topic="ngModel"
+       [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic">
+        <option value="default">I am interested in</option>
+        <option *ngFor="let topic of topics">{{ topic }}</option>
+      </select>
+      <small class="text-danger" [class.d-none]="!topicHasError || topic.untouched">Please choose a topic</small>
+    </div>
+
+    <div class="mb-3">
+      <label>Time preference</label>
+      <div class="form-check">
+        <input class="form-check-input" [(ngModel)]="userModel.timePreference" type="radio" name="timePreference" value="morning">
+        <label class="form-check-label">Morning (9AM - 12PM)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" [(ngModel)]="userModel.timePreference" type="radio" name="timePreference" value="evening">
+        <label class="form-check-label">Evening (5AM - 8PM)</label>
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" name="subscribe" [(ngModel)]="userModel.subscribe" type="checkbox">
+      <label class="form-check-label">
+        Send me promotional offers
+      </label>
+    </div>
+
+    <button [disabled]="userForm.form.invalid || topicHasError" class="btn btn-primary" type="submit">Submit form</button>
+
+  </form>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
 
